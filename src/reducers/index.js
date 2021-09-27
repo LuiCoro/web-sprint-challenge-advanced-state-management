@@ -1,8 +1,48 @@
+import {START_FETCH, SUCCESS_FETCH, ERROR_FETCH, ADD_SMURF, SET_ERROR} from '../actions/index'
+
 
 export const initialState = {
+  
+  smurfs : [],
+  appLoading : false,
+  errorMessage: ''
+  
 }
 
-const reducer = ()=>{
+const reducer = (state = initialState, action)=>{
+  switch (action.type) {
+    case (START_FETCH):
+      return {
+        ...state,
+        appLoading: true
+      };
+    case (SUCCESS_FETCH):
+      return {
+        ...state,
+        appLoading:false,
+        smurfs: action.payload,
+        errorMessage: ''
+      };
+    case (ERROR_FETCH):
+      return {
+        ...state,
+        appLoading:false,
+        errorMessage: action.payload
+      };
+    case(ADD_SMURF):
+      return({
+        ...state,
+        smurfs: [...state.smurfs, action.payload],
+        appLoading: true
+      });
+    case(SET_ERROR):
+      return({
+        ...state,
+        errorMessage: "Name, position and nickname fields are required.",
+      })
+    default:
+      return state;
+  }
 }
 
 //**************DO NOT EDIT ANY CODE BEYOND THIS POINT**************//
